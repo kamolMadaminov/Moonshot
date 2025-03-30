@@ -25,28 +25,10 @@ struct MissionView: View {
                     .containerRelativeFrame(.horizontal){ width, axis in
                         width * 0.6
                     }
-                VStack(alignment: .leading) {
-                    
-                    Rectangle()
-                        .frame(height: 2)
-                        .foregroundStyle(.lightBackground)
-                        .padding(.vertical)
-                    
-                    Text("Mission Highlights")
-                        .font(.title.bold())
-                        .padding(.bottom, 5)
-                    
-                    Text(mission.description)
-                    
-                    Rectangle()
-                        .frame(height: 2)
-                        .foregroundStyle(.lightBackground)
-                        .padding(.vertical)
-                    
-                    Text("Crew")
-                        .font(.title.bold())
-                        .padding(.bottom, 5)
-                }
+                
+                // crew details to come
+                missionDescription(mission)
+                
                 .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false){
@@ -85,6 +67,43 @@ struct MissionView: View {
         .navigationTitle(mission.displayName)
         .navigationBarTitleDisplayMode(.inline)
         .background(.darkBackground)
+    }
+    
+    func checkLaunchDate(_ date: Date?) -> Bool {
+        return date != nil
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+        return formatter.string(from: date)
+    }
+    
+    func missionDescription(_ mission: Mission) -> some View {
+        VStack(alignment: .leading) {
+            if checkLaunchDate(mission.launchDate){
+                Text("Launch date: \(formatDate(mission.launchDate!))")
+            }
+            Rectangle()
+                .frame(height: 2)
+                .foregroundStyle(.lightBackground)
+                .padding(.vertical)
+            
+            Text("Mission Highlights")
+                .font(.title.bold())
+                .padding(.bottom, 5)
+            
+            Text(mission.description)
+            
+            Rectangle()
+                .frame(height: 2)
+                .foregroundStyle(.lightBackground)
+                .padding(.vertical)
+            
+            Text("Crew")
+                .font(.title.bold())
+                .padding(.bottom, 5)
+        }
     }
     
     init(mission: Mission, astronaut: [String: Astrounaut]){

@@ -10,8 +10,9 @@ import SwiftUI
 struct ContentView: View {
     let astrounauts: [String: Astrounaut] = Bundle.main.decode("astronauts.json")
     let missions: [Mission] = Bundle.main.decode("missions.json")
+    @State private var isGridView = true
     
-    let columns = [
+    @State private var columns = [
         GridItem(.adaptive(minimum: 150))
     ]
     
@@ -50,11 +51,29 @@ struct ContentView: View {
                     }
                 }
                 .padding([.horizontal, .bottom])
+                Button("Change layout"){
+                    switchLayout()
+                }
+                .font(.headline)
+                .foregroundStyle(.white)
             }
             .navigationTitle("Moonshot")
             .background(.darkBackground)
             .preferredColorScheme(.dark)
         }
+    }
+    
+    func switchLayout() {
+        if isGridView {
+            columns = [
+                GridItem(.adaptive(minimum: 150))
+            ]
+        } else {
+            columns = [
+                GridItem(.adaptive(minimum: 300))
+            ]
+        }
+        self.isGridView = !self.isGridView
     }
 }
 
